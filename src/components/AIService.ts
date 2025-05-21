@@ -2,7 +2,7 @@
 import { pipeline } from "@huggingface/transformers";
 
 // Define types for the fields
-type Field = "Web Development" | "Data Science" | "Marketing";
+export type Field = "Web Development" | "Data Science" | "Marketing";
 
 // Cached model instance
 let generatorModel: any = null;
