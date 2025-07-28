@@ -1,8 +1,8 @@
 
 import { pipeline } from "@huggingface/transformers";
 
-// Define types for the fields
-export type Field = "Web Development" | "Data Science" | "Marketing";
+// Import types from MessageForm
+import type { MessageFormData, Field } from "./MessageForm";
 
 // Cached model instance
 let generatorModel: any = null;
@@ -15,8 +15,7 @@ async function setupModel() {
     // For our text generation we'll use Flan-T5-Small which is lightweight but effective
     generatorModel = await pipeline(
       "text2text-generation",
-      "google/flan-t5-small",
-      { max_new_tokens: 200 }
+      "google/flan-t5-small"
     );
     return generatorModel;
   } catch (error) {
@@ -26,30 +25,56 @@ async function setupModel() {
 }
 
 // Function to generate a cold message
-export async function generateColdMessage(name: string, field: Field, skills: string[]) {
+export async function generateColdMessage(data: MessageFormData) {
   try {
     const model = await setupModel();
     
-    // Create a prompt that instructs the model what to generate
-    const prompt = `Generate a professional and friendly cold networking message for someone named ${name} 
-    who works in ${field} with skills in ${skills.join(', ')}. The message should be concise, 
-    engaging, and highlight their expertise without sounding generic or using templates. Make it 
-    sound natural and personable.`;
+    // Create a more detailed prompt based on the form data
+    let prompt = `Generate a professional and friendly ${data.messageType} message for someone named ${data.name} who works in ${data.field} with skills in ${data.skills.join(', ')}.`;
+    
+    if (data.companyName) {
+      prompt += ` They work at ${data.companyName}.`;
+    }
+    
+    if (data.jobDescription) {
+      prompt += ` Their role involves: ${data.jobDescription}.`;
+    }
+    
+    // Add specific instructions based on message type
+    switch (data.messageType) {
+      case 'linkedin':
+        prompt += ' The message should be suitable for LinkedIn connection requests, concise and professional.';
+        break;
+      case 'email':
+        prompt += ' The message should be formatted as an email introduction, slightly more formal.';
+        break;
+      case 'networking':
+        prompt += ' The message should be appropriate for networking events, warm and engaging.';
+        break;
+      case 'collaboration':
+        prompt += ' The message should focus on potential collaboration opportunities.';
+        break;
+    }
+    
+    prompt += ' Make it sound natural, personable, and avoid generic templates.';
     
     // Generate the response
     const result = await model(prompt, {
-      temperature: 0.7, // Add some randomness for creativity
-      top_p: 0.95, // Nucleus sampling for diverse outputs
+      max_length: 200,
+      temperature: 0.7,
+      top_p: 0.95,
     });
     
     // Clean up the generated text
     let message = result[0].generated_text as string;
     
-    // Post-process the text to ensure it starts with "Hi" or another greeting
+    // Post-process the text to ensure it starts with an appropriate greeting
     if (!message.trim().toLowerCase().startsWith("hi") && 
         !message.trim().toLowerCase().startsWith("hello") && 
-        !message.trim().toLowerCase().startsWith("greetings")) {
-      message = `Hi! ${message}`;
+        !message.trim().toLowerCase().startsWith("greetings") &&
+        !message.trim().toLowerCase().startsWith("dear")) {
+      const greeting = data.messageType === 'email' ? 'Hello' : 'Hi';
+      message = `${greeting}! ${message}`;
     }
     
     return message;
