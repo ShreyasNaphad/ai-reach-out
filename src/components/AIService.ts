@@ -29,16 +29,32 @@ export async function generateColdMessage(data: MessageFormData) {
   try {
     const model = await setupModel();
     
-    // Create a more detailed prompt based on the form data
-    let prompt = `Generate a professional and friendly ${data.messageType} message for someone named ${data.name} who works in ${data.field} with skills in ${data.skills.join(', ')}.`;
+    // Create a comprehensive, context-aware prompt
+    let prompt = `Create a highly personalized and professional ${data.messageType} message for ${data.name}.
+
+BACKGROUND INFORMATION:
+- Name: ${data.name}
+- Professional Field: ${data.field}
+- Key Skills: ${data.skills.join(', ')}`;
     
     if (data.companyName) {
-      prompt += ` They work at ${data.companyName}.`;
+      prompt += `
+- Company: ${data.companyName}`;
     }
     
-    if (data.jobDescription) {
-      prompt += ` Their role involves: ${data.jobDescription}.`;
+    if (data.jobDescription && data.jobDescription.trim()) {
+      prompt += `
+- Role & Responsibilities: ${data.jobDescription.trim()}`;
     }
+
+    prompt += `
+
+INSTRUCTIONS:
+- Use ALL the provided information to create a highly targeted message
+- Reference specific skills and experience when relevant
+- Make it sound natural and conversational, not templated
+- Include specific details that show genuine interest
+- Tailor the tone and content for ${data.messageType} context`;
     
     // Add specific instructions based on message type
     switch (data.messageType) {
