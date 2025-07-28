@@ -109,53 +109,74 @@ const MessageForm = ({ onGenerateMessage, isGenerating }: MessageFormProps) => {
   const isFormValid = name.trim() !== '' && field !== '' && selectedSkills.length === 3;
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-6">
-      <Card className="animate-slide-up border-0 shadow-card relative overflow-hidden" style={{ background: 'var(--gradient-card)', boxShadow: 'var(--shadow-card)' }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 pointer-events-none"></div>
-        <CardHeader className="pb-6 relative z-10">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
-            AI Message Generator
-          </CardTitle>
-          <p className="text-center text-muted-foreground text-sm mt-2">
-            Create personalized professional messages with AI
-          </p>
+    <div className="w-full max-w-3xl mx-auto space-y-8">
+      {/* Background Mesh Gradient */}
+      <div className="fixed inset-0 opacity-30 pointer-events-none" style={{ background: 'var(--gradient-mesh)' }}></div>
+      
+      <Card className="animate-slide-up border-0 relative overflow-hidden backdrop-blur-xl bg-white/80 dark:bg-gray-900/80" style={{ boxShadow: 'var(--shadow-elegant)' }}>
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary-glow/5 to-accent/10 pointer-events-none animate-gradient-x"></div>
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-primary-glow/20 to-accent/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-gradient-to-tr from-accent/20 to-primary/20 rounded-full blur-2xl animate-bounce-gentle"></div>
+        
+        <CardHeader className="pb-8 pt-10 relative z-10">
+          <div className="text-center space-y-4">
+            <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-gradient-to-r from-primary to-accent shadow-lg animate-glow">
+              <span className="text-2xl">✨</span>
+            </div>
+            <CardTitle className="text-4xl font-bold bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent animate-shimmer bg-[length:200%_auto]">
+              AI Message Generator
+            </CardTitle>
+            <p className="text-muted-foreground text-base max-w-lg mx-auto leading-relaxed">
+              Create personalized professional messages with AI-powered intelligence
+            </p>
+          </div>
         </CardHeader>
-        <CardContent className="space-y-6 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <Label htmlFor="name" className="text-sm font-semibold text-foreground">Your Name *</Label>
+        <CardContent className="space-y-8 relative z-10 px-8 pb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4 group">
+              <Label htmlFor="name" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 bg-gradient-to-r from-primary to-accent rounded-full"></span>
+                Your Name *
+              </Label>
               <Input 
                 id="name" 
                 placeholder="Enter your full name" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="h-11 border-border/60 bg-background/50 backdrop-blur-sm focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                className="h-12 border-0 bg-white/60 backdrop-blur-sm shadow-soft focus:shadow-primary/20 focus:bg-white/80 focus:ring-2 focus:ring-primary/30 transition-all duration-300 rounded-xl"
               />
             </div>
             
-            <div className="space-y-3">
-              <Label htmlFor="company" className="text-sm font-semibold text-foreground">Company Name</Label>
+            <div className="space-y-4 group">
+              <Label htmlFor="company" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 bg-gradient-to-r from-accent to-primary-glow rounded-full"></span>
+                Company Name
+              </Label>
               <Input 
                 id="company" 
                 placeholder="Your current company (optional)" 
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                className="h-11 border-border/60 bg-background/50 backdrop-blur-sm focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                className="h-12 border-0 bg-white/60 backdrop-blur-sm shadow-soft focus:shadow-primary/20 focus:bg-white/80 focus:ring-2 focus:ring-primary/30 transition-all duration-300 rounded-xl"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <Label htmlFor="field" className="text-sm font-semibold text-foreground">Professional Field *</Label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4 group">
+              <Label htmlFor="field" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 bg-gradient-to-r from-primary-glow to-accent rounded-full"></span>
+                Professional Field *
+              </Label>
               <Select value={field} onValueChange={(value) => setField(value as Field)}>
-                <SelectTrigger id="field" className="h-11 border-border/60 bg-background/50 backdrop-blur-sm focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-all duration-200">
+                <SelectTrigger id="field" className="h-12 border-0 bg-white/60 backdrop-blur-sm shadow-soft focus:shadow-primary/20 focus:bg-white/80 focus:ring-2 focus:ring-primary/30 transition-all duration-300 rounded-xl">
                   <SelectValue placeholder="Select your field" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-0 shadow-elegant backdrop-blur-xl bg-white/95 rounded-xl">
                   <SelectGroup>
                     {Object.keys(skillsMap).map((fieldName) => (
-                      <SelectItem key={fieldName} value={fieldName}>
+                      <SelectItem key={fieldName} value={fieldName} className="rounded-lg focus:bg-primary/10">
                         {fieldName}
                       </SelectItem>
                     ))}
@@ -164,16 +185,19 @@ const MessageForm = ({ onGenerateMessage, isGenerating }: MessageFormProps) => {
               </Select>
             </div>
 
-            <div className="space-y-3">
-              <Label htmlFor="messageType" className="text-sm font-semibold text-foreground">Message Type</Label>
+            <div className="space-y-4 group">
+              <Label htmlFor="messageType" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 bg-gradient-to-r from-accent to-primary rounded-full"></span>
+                Message Type
+              </Label>
               <Select value={messageType} onValueChange={setMessageType}>
-                <SelectTrigger id="messageType" className="h-11 border-border/60 bg-background/50 backdrop-blur-sm focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-all duration-200">
+                <SelectTrigger id="messageType" className="h-12 border-0 bg-white/60 backdrop-blur-sm shadow-soft focus:shadow-primary/20 focus:bg-white/80 focus:ring-2 focus:ring-primary/30 transition-all duration-300 rounded-xl">
                   <SelectValue placeholder="Select message type" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-0 shadow-elegant backdrop-blur-xl bg-white/95 rounded-xl">
                   <SelectGroup>
                     {messageTypes.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
+                      <SelectItem key={type.value} value={type.value} className="rounded-lg focus:bg-primary/10">
                         {type.label}
                       </SelectItem>
                     ))}
@@ -183,10 +207,13 @@ const MessageForm = ({ onGenerateMessage, isGenerating }: MessageFormProps) => {
             </div>
           </div>
           
-          <div className="space-y-3">
+          <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <Label className="text-sm font-semibold text-foreground">Select 3 Skills *</Label>
-              <Badge variant="outline" className="px-3 py-1 bg-muted/50 border-border/60">
+              <Label className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 bg-gradient-to-r from-primary to-primary-glow rounded-full"></span>
+                Select 3 Skills *
+              </Label>
+              <Badge variant="outline" className="px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20 text-primary font-medium">
                 {selectedSkills.length}/3 selected
               </Badge>
             </div>
@@ -198,16 +225,16 @@ const MessageForm = ({ onGenerateMessage, isGenerating }: MessageFormProps) => {
                   role="combobox"
                   aria-expanded={skillsOpen}
                   disabled={!field}
-                  className="w-full justify-between h-11 border-border/60 bg-background/50 backdrop-blur-sm hover:bg-accent/5 focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                  className="w-full justify-between h-12 border-0 bg-white/60 backdrop-blur-sm shadow-soft focus:shadow-primary/20 focus:bg-white/80 focus:ring-2 focus:ring-primary/30 transition-all duration-300 rounded-xl"
                 >
                   {selectedSkills.length > 0 
                     ? `${selectedSkills.length} skill${selectedSkills.length > 1 ? 's' : ''} selected`
                     : "Select your top skills..."}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-full p-0" align="start">
-                <Command>
-                  <CommandInput placeholder="Search skills..." />
+              <PopoverContent className="w-full p-0 border-0 shadow-elegant backdrop-blur-xl bg-white/95 rounded-xl" align="start">
+                <Command className="rounded-xl">
+                  <CommandInput placeholder="Search skills..." className="border-0 focus:ring-0" />
                   <CommandList>
                     <CommandEmpty>No skills found.</CommandEmpty>
                     <CommandGroup>
@@ -217,10 +244,11 @@ const MessageForm = ({ onGenerateMessage, isGenerating }: MessageFormProps) => {
                           value={skill}
                           onSelect={() => handleSkillToggle(skill)}
                           disabled={selectedSkills.length >= 3 && !selectedSkills.includes(skill)}
+                          className="rounded-lg focus:bg-primary/10 aria-selected:bg-primary/10"
                         >
                           <Check
                             className={cn(
-                              "mr-2 h-4 w-4",
+                              "mr-2 h-4 w-4 text-primary",
                               selectedSkills.includes(skill) ? "opacity-100" : "opacity-0"
                             )}
                           />
@@ -234,12 +262,15 @@ const MessageForm = ({ onGenerateMessage, isGenerating }: MessageFormProps) => {
             </Popover>
             
             {selectedSkills.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4 p-4 bg-muted/30 backdrop-blur-sm rounded-xl border border-border/30">
+              <div className="flex flex-wrap gap-3 p-6 bg-gradient-to-r from-white/70 to-white/50 backdrop-blur-sm rounded-2xl border border-white/30 shadow-soft">
                 {selectedSkills.map((skill) => (
-                  <Badge key={skill} variant="secondary" className="text-xs px-3 py-1.5 bg-secondary/70 hover:bg-secondary/90 transition-colors duration-200">
+                  <Badge 
+                    key={skill} 
+                    className="text-sm px-4 py-2 bg-gradient-to-r from-primary/90 to-accent/90 text-white hover:from-primary hover:to-accent transition-all duration-200 shadow-lg border-0 rounded-full"
+                  >
                     {skill}
                     <button
-                      className="ml-2 hover:text-destructive transition-colors duration-200"
+                      className="ml-2 hover:text-white/70 transition-colors duration-200 text-lg font-bold"
                       onClick={() => handleSkillToggle(skill)}
                     >
                       ×
@@ -250,40 +281,47 @@ const MessageForm = ({ onGenerateMessage, isGenerating }: MessageFormProps) => {
             )}
           </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="jobDescription" className="text-sm font-semibold text-foreground">
+          <div className="space-y-4">
+            <Label htmlFor="jobDescription" className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <span className="w-2 h-2 bg-gradient-to-r from-accent to-primary-glow rounded-full"></span>
               Job Description 
-              <span className="text-primary/70 font-normal">(Optional - enhances AI personalization)</span>
+              <span className="text-primary/70 font-normal ml-2">(Optional - enhances AI personalization)</span>
             </Label>
             <Textarea 
               id="jobDescription" 
               placeholder="Describe your current role, responsibilities, or the type of work you do. This helps the AI create more targeted and relevant messages..." 
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
-              className="min-h-24 border-border/60 bg-background/50 backdrop-blur-sm focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-all duration-200 resize-none"
-              rows={3}
+              className="min-h-32 border-0 bg-white/60 backdrop-blur-sm shadow-soft focus:shadow-primary/20 focus:bg-white/80 focus:ring-2 focus:ring-primary/30 transition-all duration-300 resize-none rounded-xl"
+              rows={4}
             />
           </div>
           
-          <Button 
-            className="w-full h-14 text-lg font-semibold relative overflow-hidden group transition-all duration-300 hover:scale-[1.02] focus:scale-[1.02]" 
-            onClick={handleGenerateClick}
-            disabled={!isFormValid || isGenerating}
-            style={{ 
-              background: 'var(--gradient-primary)',
-              boxShadow: 'var(--shadow-primary)'
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            {isGenerating ? (
-              <div className="flex items-center gap-3 relative z-10">
-                <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin"></div>
-                <span>Creating your message...</span>
-              </div>
-            ) : (
-              <span className="relative z-10">✨ Generate AI Message</span>
-            )}
-          </Button>
+          <div className="pt-4">
+            <Button 
+              className="w-full h-16 text-xl font-bold relative overflow-hidden group transition-all duration-500 hover:scale-[1.02] focus:scale-[1.02] border-0 rounded-2xl shadow-lg" 
+              onClick={handleGenerateClick}
+              disabled={!isFormValid || isGenerating}
+              style={{ 
+                background: 'var(--gradient-hero)',
+                boxShadow: 'var(--shadow-elegant)'
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-white/20 opacity-0 group-hover:opacity-100 animate-shimmer"></div>
+              {isGenerating ? (
+                <div className="flex items-center gap-4 relative z-10">
+                  <div className="w-6 h-6 border-3 border-white/40 border-t-white rounded-full animate-spin"></div>
+                  <span>Creating your perfect message...</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 relative z-10">
+                  <span className="text-2xl animate-bounce-gentle">✨</span>
+                  <span>Generate AI Message</span>
+                </div>
+              )}
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
